@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/luggage_cart.obj-2a47fe91e06760cbcc0f0e319735c6bb.mesh"
+
+[deps]
+
+files=[ "res://.import/luggage_cart.obj-2a47fe91e06760cbcc0f0e319735c6bb.mesh" ]
+
+source_file="res://Decorations/luggage_cart.obj"
+dest_files=[ "res://.import/luggage_cart.obj-2a47fe91e06760cbcc0f0e319735c6bb.mesh", "res://.import/luggage_cart.obj-2a47fe91e06760cbcc0f0e319735c6bb.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

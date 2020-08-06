@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/roomba.obj-13ce22a43481ad740708724b7d276720.mesh"
+
+[deps]
+
+files=[ "res://.import/roomba.obj-13ce22a43481ad740708724b7d276720.mesh" ]
+
+source_file="res://Actors/Roomba/roomba.obj"
+dest_files=[ "res://.import/roomba.obj-13ce22a43481ad740708724b7d276720.mesh", "res://.import/roomba.obj-13ce22a43481ad740708724b7d276720.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

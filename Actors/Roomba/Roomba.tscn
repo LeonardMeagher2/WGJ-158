@@ -1,0 +1,75 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Actors/AI.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Actors/Roomba/roomba.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://Shaders/front_only_shader.tres" type="Shader" id=3]
+[ext_resource path="res://Actors/Roomba/roomba.png" type="Texture" id=4]
+[ext_resource path="res://Evidence/EvidenceArea.gd" type="Script" id=5]
+[ext_resource path="res://Decorations/key.png" type="Texture" id=6]
+[ext_resource path="res://Decorations/evidence/anna_key.tres" type="Resource" id=7]
+
+[sub_resource type="CylinderShape" id=1]
+radius = 0.2
+height = 0.1
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 3 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_flip_h = false
+shader_param/uv_flip_v = false
+shader_param/billboard = false
+shader_param/only_y = false
+shader_param/color = ExtResource( 4 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 0.0891065, 0.00593131, 0.114296 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 3 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_flip_h = false
+shader_param/uv_flip_v = false
+shader_param/billboard = false
+shader_param/only_y = false
+shader_param/color = ExtResource( 6 )
+
+[sub_resource type="QuadMesh" id=5]
+size = Vector2( 0.248, 0.248 )
+
+[node name="Roomba" instance=ExtResource( 1 )]
+wander = true
+wander_angle = 90.0
+wandere_max_distance = 3.0
+
+[node name="CollisionShape" type="CollisionShape" parent="." index="0"]
+shape = SubResource( 1 )
+
+[node name="Roomba" type="Area" parent="." index="1"]
+script = ExtResource( 5 )
+inspect = true
+inspect_distance = 0.75
+
+[node name="CollisionShape" type="CollisionShape" parent="Roomba" index="0"]
+shape = SubResource( 1 )
+
+[node name="roomba" type="MeshInstance" parent="Roomba" index="1"]
+mesh = ExtResource( 2 )
+material/0 = SubResource( 2 )
+
+[node name="Key" type="Area" parent="Roomba" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0505911, 0 )
+script = ExtResource( 5 )
+when_no_evidence = 2
+evidence = [ ExtResource( 7 ) ]
+
+[node name="CollisionShape" type="CollisionShape" parent="Roomba/Key" index="0"]
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Roomba/Key" index="1"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+material_override = SubResource( 4 )
+mesh = SubResource( 5 )
+material/0 = null
+[connection signal="interact" from="Roomba/Key" to="Roomba/Key/MeshInstance" method="hide"]

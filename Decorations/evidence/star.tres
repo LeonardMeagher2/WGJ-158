@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Evidence/Evidence.gd" type="Script" id=1]
+
+[sub_resource type="StreamTexture" id=1]
+flags = 2
+load_path = "res://.import/new.png-fd2bd76f074db7b88e1981f683e7fdf1.stex"
+
+[resource]
+script = ExtResource( 1 )
+type = 1
+source = "Lobby"
+concept = "Good Job!"
+description = "You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. You found a clue, although this one is useless. "
+image = SubResource( 1 )

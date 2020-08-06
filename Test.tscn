@@ -1,0 +1,202 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://Actors/AI.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Dialog/DialogNode.gd" type="Script" id=2]
+[ext_resource path="res://Actors/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Actors/Player/player.png" type="Texture" id=4]
+[ext_resource path="res://Evidence/Evidence.gd" type="Script" id=5]
+[ext_resource path="res://Dialog/DialogStart.gd" type="Script" id=6]
+[ext_resource path="res://no_evidence.tres" type="Resource" id=7]
+[ext_resource path="res://Evidence/EvidenceArea.gd" type="Script" id=8]
+[ext_resource path="res://Shaders/directional_uv_billboard_shader.tres" type="Shader" id=10]
+
+[sub_resource type="Environment" id=1]
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 40, 0.2, 40 )
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 80, 0.38, 80 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 10 )
+shader_param/uv_front_offset = Vector2( 0, 0 )
+shader_param/uv_front_scale = Vector2( 0.333, 1 )
+shader_param/uv_left_offset = Vector2( 0.333, 0 )
+shader_param/uv_left_scale = Vector2( 0.333, 1 )
+shader_param/uv_right_offset = Vector2( 0.666, 0 )
+shader_param/uv_right_scale = Vector2( -0.333, 1 )
+shader_param/uv_back_offset = Vector2( 0.666, 0 )
+shader_param/uv_back_scale = Vector2( 0.333, 1 )
+shader_param/color = ExtResource( 4 )
+
+[sub_resource type="QuadMesh" id=5]
+size = Vector2( 2, 2 )
+
+[sub_resource type="Resource" id=10]
+script = ExtResource( 5 )
+type = 2
+source = ""
+concept = "A man"
+description = "This is a man"
+
+[sub_resource type="CapsuleShape" id=6]
+radius = 0.5
+
+[sub_resource type="Curve3D" id=7]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0.539149, 0.358429, 7.82348, 0, 0, 0, 0, 0, 0, 9.00352, 0.23494, 5.23407, 0, 0, 0, 0, 0, 0, 9.53102, 0.955338, -2.10144, 0, 0, 0, 0, 0, 0, -3.31024, 1.09076, -2.36519 ),
+"tilts": PoolRealArray( 0, 0, 0, 0 )
+}
+
+[sub_resource type="SphereMesh" id=8]
+radius = 0.2
+height = 0.4
+
+[sub_resource type="Animation" id=9]
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path/PathFollow:unit_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+
+[node name="Spatial" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.669727, -0.461025, 0.58217, 0, 0.783953, 0.62082, -0.742607, -0.41578, 0.525035, -2.95026, 3.1207, -2.66072 )
+light_indirect_energy = 0.9
+shadow_enabled = true
+shadow_reverse_cull_face = true
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14286, 3.06653 )
+
+[node name="Floor" type="StaticBody" parent="."]
+collision_layer = 1025
+collision_mask = 1025
+
+[node name="CollisionShape" type="CollisionShape" parent="Floor"]
+shape = SubResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Floor"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0165567, -0.026144, 0.000402451 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="MeshInstance3" type="MeshInstance" parent="."]
+transform = Transform( 0.997818, 0, -0.066012, 0, 1, 0, 0.066012, 0, 0.997818, -0.245785, 1.17666, -0.155902 )
+material_override = SubResource( 4 )
+mesh = SubResource( 5 )
+material/0 = null
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Ben" parent="MeshInstance3" type="Area" ]
+type = 2
+evidence = [ SubResource( 10 ) ]
+script = ExtResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance3/Ben"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+shape = SubResource( 6 )
+
+[node name="DialogStart" type="Spatial" parent="MeshInstance3/Ben"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27516, 0 )
+script = ExtResource( 6 )
+intros = PoolStringArray( "Yes\?", "Hey.", "How can I help\?", "Howdy!" )
+outros = PoolStringArray( "Bye.", "See ya.", "Goodbye" )
+unknown = PoolStringArray( "I don\'t know anything about that.", "Um\?" )
+
+[node name="first" type="Spatial" parent="MeshInstance3/Ben/DialogStart"]
+script = ExtResource( 2 )
+text = "Hey have you talked to my brother?"
+goto = NodePath("../../../../AI/Doug/DialogStart/first")
+goto_distance = 1.0
+
+[node name="DialogNode" type="Spatial" parent="MeshInstance3/Ben/DialogStart/first"]
+script = ExtResource( 2 )
+text = "Nice."
+
+[node name="Path" type="Path" parent="."]
+curve = SubResource( 7 )
+
+[node name="PathFollow" type="PathFollow" parent="Path"]
+transform = Transform( -0.642828, 0, 0.766011, 0, 1, 0, -0.766011, 0, -0.642828, 2.45297, 0.330508, 7.23801 )
+offset = 2.0
+rotation_mode = 0
+
+[node name="MeshInstance" type="MeshInstance" parent="Path/PathFollow"]
+mesh = SubResource( 8 )
+material/0 = null
+
+[node name="AI" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6273, 1.66632, 0 )
+target = NodePath("../MeshInstance3")
+min_distance = 1.0
+
+[node name="MeshInstance2" type="MeshInstance" parent="AI"]
+transform = Transform( -0.999999, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -0.999999, 0, 0, 0 )
+layers = 2147483649
+material_override = SubResource( 4 )
+mesh = SubResource( 5 )
+material/0 = null
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Doug" parent="AI" type="Area"]
+transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0 )
+type = 2
+evidence = [ SubResource( 10 ) ]
+script = ExtResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="AI/Doug"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+shape = SubResource( 6 )
+
+[node name="DialogStart" type="Spatial" parent="AI/Doug"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27516, 0 )
+script = ExtResource( 6 )
+intros = PoolStringArray( "Yes\?", "Hey.", "How can I help\?", "Howdy!" )
+outros = PoolStringArray( "Bye.", "See ya.", "Goodbye" )
+unknown = PoolStringArray( "I don\'t know anything about that.", "Um\?" )
+
+[node name="first" type="Spatial" parent="AI/Doug/DialogStart"]
+script = ExtResource( 2 )
+evidence = [ ExtResource( 7 ) ]
+text = "YO it's me ya boi skinny penis"
+
+[node name="DialogNode" type="Spatial" parent="AI/Doug/DialogStart/first"]
+script = ExtResource( 2 )
+text = "My name isn't actually skinny penis."
+
+[node name="DialogNode2" type="Spatial" parent="AI/Doug/DialogStart/first"]
+script = ExtResource( 2 )
+text = "But whatever."
+
+[node name="CollisionShape" type="CollisionShape" parent="AI"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+shape = SubResource( 6 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Test"
+anims/Test = SubResource( 9 )
+[connection signal="interact" from="MeshInstance3/Ben" to="MeshInstance3/Ben/DialogStart" method="start"]
+[connection signal="interact" from="AI/Doug" to="AI/Doug/DialogStart" method="start"]
+[connection signal="done" from="AI/Doug/DialogStart" to="AI" method="set" binds= [ "enabled", true ]]
+[connection signal="started" from="AI/Doug/DialogStart" to="AI" method="set" binds= [ "enabled", false ]]
+
+[editable path="Player"]

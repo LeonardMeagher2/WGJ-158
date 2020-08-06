@@ -1,0 +1,112 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://UI/font_reading_l.tres" type="DynamicFont" id=1]
+[ext_resource path="res://UI/Dialog/next_pressed.png" type="Texture" id=2]
+[ext_resource path="res://UI/Dialog/next_disabled.png" type="Texture" id=3]
+[ext_resource path="res://UI/Dialog/next.png" type="Texture" id=4]
+[ext_resource path="res://UI/Dialog/Dialog.gd" type="Script" id=5]
+[ext_resource path="res://UI/Dialog/yes_pressed.png" type="Texture" id=6]
+[ext_resource path="res://UI/Dialog/yes_disabled.png" type="Texture" id=7]
+[ext_resource path="res://UI/Dialog/no.png" type="Texture" id=8]
+[ext_resource path="res://UI/Dialog/no_disabled.png" type="Texture" id=9]
+[ext_resource path="res://UI/Dialog/yes.png" type="Texture" id=10]
+[ext_resource path="res://UI/Dialog/no_pressed.png" type="Texture" id=11]
+
+[node name="Dialog" type="Control"]
+margin_top = 204.0
+margin_right = 280.0
+margin_bottom = 268.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+size_flags_vertical = 8
+size_flags_stretch_ratio = 1.5
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="SpeakTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -9.0
+margin_bottom = -1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer"]
+margin_right = 264.0
+margin_bottom = 56.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/MarginContainer/HBoxContainer"]
+margin_right = 244.0
+margin_bottom = 56.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/normal_font = ExtResource( 1 )
+bbcode_enabled = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer/HBoxContainer"]
+margin_left = 248.0
+margin_right = 264.0
+margin_bottom = 56.0
+size_flags_vertical = 9
+alignment = 2
+
+[node name="yes" type="TextureButton" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_right = 16.0
+margin_bottom = 16.0
+size_flags_vertical = 8
+texture_normal = ExtResource( 10 )
+texture_pressed = ExtResource( 6 )
+texture_hover = ExtResource( 10 )
+texture_disabled = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="no" type="TextureButton" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 20.0
+margin_right = 16.0
+margin_bottom = 36.0
+size_flags_vertical = 8
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 11 )
+texture_hover = ExtResource( 8 )
+texture_disabled = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Next" type="TextureButton" parent="Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 40.0
+margin_right = 16.0
+margin_bottom = 56.0
+size_flags_vertical = 8
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="timeout" from="SpeakTimer" to="." method="_on_SpeakTimer_timeout"]
+[connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/VBoxContainer/yes" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/VBoxContainer/no" to="." method="_on_no_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/HBoxContainer/VBoxContainer/Next" to="." method="_on_Next_pressed"]

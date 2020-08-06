@@ -1,0 +1,97 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Actors/Anna/anna.png" type="Texture" id=1]
+[ext_resource path="res://Shaders/directional_uv_billboard_shader.tres" type="Shader" id=2]
+[ext_resource path="res://Actors/AI.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Evidence/EvidenceArea.gd" type="Script" id=4]
+[ext_resource path="res://Dialog/DialogStart.gd" type="Script" id=5]
+[ext_resource path="res://Dialog/DialogNode.gd" type="Script" id=6]
+[ext_resource path="res://Actors/Anna/evidence/anna.tres" type="Resource" id=7]
+[ext_resource path="res://Decorations/evidence/anna_key.tres" type="Resource" id=8]
+
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 2 )
+shader_param/uv_front_offset = Vector2( 0, 0 )
+shader_param/uv_front_scale = Vector2( 0.333, 1 )
+shader_param/uv_left_offset = Vector2( 0.333, 0 )
+shader_param/uv_left_scale = Vector2( 0.333, 1 )
+shader_param/uv_right_offset = Vector2( 0.666, 0 )
+shader_param/uv_right_scale = Vector2( -0.333, 1 )
+shader_param/uv_back_offset = Vector2( 0.666, 0 )
+shader_param/uv_back_scale = Vector2( 0.333, 1 )
+shader_param/color = ExtResource( 1 )
+
+[sub_resource type="QuadMesh" id=2]
+size = Vector2( 2, 2 )
+
+[sub_resource type="CapsuleShape" id=3]
+radius = 0.4
+
+[node name="Anna" instance=ExtResource( 3 )]
+speed = 2.0
+wander = true
+wander_angle = 45.0
+wander_attention_range = Vector2( 1, 3 )
+wandere_max_distance = 3.0
+wander_stop_chance = 0.8
+
+[node name="MeshInstance" type="MeshInstance" parent="." index="0"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0.0555524, 0 )
+material_override = SubResource( 1 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="." index="1"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+shape = SubResource( 3 )
+
+[node name="Anna" type="Area" parent="." index="2"]
+script = ExtResource( 4 )
+type = 2
+
+[node name="CollisionShape" type="CollisionShape" parent="Anna" index="0"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+shape = SubResource( 3 )
+
+[node name="DialogStart" type="Spatial" parent="Anna" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.158316, 0 )
+script = ExtResource( 5 )
+variables = {
+"name": "Anna"
+}
+
+[node name="first" type="Spatial" parent="Anna/DialogStart" index="0"]
+script = ExtResource( 6 )
+evidence = [ ExtResource( 7 ) ]
+text = "Hey my name is {name}"
+
+[node name="name" type="Spatial" parent="Anna/DialogStart" index="1"]
+script = ExtResource( 6 )
+trigger = ExtResource( 7 )
+text = "That's me![img=16]res://UI/new.png[/img]"
+
+[node name="yes" type="Spatial" parent="Anna/DialogStart/name" index="0"]
+script = ExtResource( 6 )
+text = "I know right!"
+
+[node name="no" type="Spatial" parent="Anna/DialogStart/name" index="1"]
+script = ExtResource( 6 )
+text = "Uh... yeah it is."
+ends = true
+
+[node name="key" type="Spatial" parent="Anna/DialogStart" index="2"]
+script = ExtResource( 6 )
+trigger = ExtResource( 8 )
+text = "Hey! That's my key!"
+
+[node name="key2" type="Spatial" parent="Anna/DialogStart/key" index="0"]
+script = ExtResource( 6 )
+trigger = ExtResource( 8 )
+text = "If you wouldn't mind holding on to that for me so I don't lose it, that'd be great. I don't usually lose things but it's been strange, I've lost a lot recently."
+goto = NodePath("../..")
+ends = true
+
+[node name="DialogNode" type="Spatial" parent="Anna/DialogStart/key" index="1"]
+script = ExtResource( 6 )
+text = "Amulya was here"

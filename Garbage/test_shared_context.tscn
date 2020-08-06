@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node
+
+onready var ctx = Context.use()
+
+func _ready():
+	prints(self, get_path(), ctx.ref, ctx.ref.parent)
+"
+
+[node name="Parent" type="Node"]
+script = SubResource( 1 )
+
+[node name="Child" type="Node" parent="."]
+script = SubResource( 1 )
+
+[node name="Child3" type="Node" parent="Child"]
+script = SubResource( 1 )
+
+[node name="Child4" type="Node" parent="Child/Child3"]
+script = SubResource( 1 )
+
+[node name="Child2" type="Node" parent="."]
+script = SubResource( 1 )

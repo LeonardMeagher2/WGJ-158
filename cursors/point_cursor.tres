@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://cursors/MouseCursor.gd" type="Script" id=1]
+[ext_resource path="res://cursors/hand_point1.png" type="Texture" id=2]
+[ext_resource path="res://cursors/hand_point2.png" type="Texture" id=3]
+
+[resource]
+script = ExtResource( 1 )
+point = ExtResource( 2 )
+click = ExtResource( 3 )
+shape = 0
+hotspot = Vector2( 12, 8 )
